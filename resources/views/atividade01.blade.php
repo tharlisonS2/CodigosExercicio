@@ -120,7 +120,8 @@
                 <li><a href="#">Entrar</a></li>
             </ul>
         </nav>
-        <form action=''method='POST' onsubmit='A'>
+        <form action='/cliente'method='POST'>
+            @csrf
             <div>
                 <label>Nome:</label>
                 <input type='text'></input>
@@ -135,7 +136,7 @@
             </div>
             <div>
                 <label>Data Nasc.:</label>
-                <input type='text'></input>
+                <input type='date'></input>
             </div>
         </form>
         <div align="center">
