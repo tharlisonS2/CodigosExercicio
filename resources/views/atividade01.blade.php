@@ -124,19 +124,19 @@
             @csrf
             <div>
                 <label>Nome:</label>
-                <input type='text'></input>
+                <input type='text' name='nome'></input>
                 <label>CPF:</label>
-                <input type='text'></input
+                <input type='text' name='cpf'></input
             </div>
             <div>
                 <label>Email:</label>
-                <input type='text'></input>
+                <input type='text' name='email'></input>
                 <label>Telefone:</label>
-                <input type='text'></input>
+                <input type='text'name ='telefone'></input>
             </div>
             <div>
                 <label>Data Nasc.:</label>
-                <input type='date'></input>
+                <input type='date'name='data_nascimento'></input>
             </div>
         </form>
         <div align="center">
