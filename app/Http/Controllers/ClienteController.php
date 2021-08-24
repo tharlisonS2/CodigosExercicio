@@ -13,7 +13,13 @@ class ClienteController extends Controller
      */
     public function index()
     {
-        return view('atividade01');
+
+        $clientes = Cliente::All();
+        $cliente = new Cliente();
+        return view('atividade01',[
+            "clientes" => $clientes,
+            "cliente" => $cliente
+        ]);
     }
 
     /**
@@ -34,6 +40,11 @@ class ClienteController extends Controller
      */
     public function store(Request $request)
     {
+        if($request->get("id")==""){
+            $cliente = new Cliente();
+        }else{
+            $cliente = Cliente::Find($request->get("id"));
+        }
         $cliente = new Cliente();
 
         $cliente->nome = $request->get("nome");
@@ -41,6 +52,8 @@ class ClienteController extends Controller
         $cliente->email = $request->get("email");
         $cliente->telefone = $request->get("telefone");
         $cliente->data_nascimento = $request->get("data_nascimento");
+
+        $cliente->save();
         return redirect("/cliente");
     }
 
@@ -68,7 +81,12 @@ class ClienteController extends Controller
      */
     public function edit($id)
     {
-        //
+        $clientes= Cliente::All();
+        $cliente = Cliente::Find($id);
+        return view('atividade01',[
+            "clientes" => $clientes,
+            "cliente" => $cliente
+        ]);
     }
 
     /**
@@ -91,6 +109,7 @@ class ClienteController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Cliente::destroy($id);
+        return redirect("/cliente");
     }
 }

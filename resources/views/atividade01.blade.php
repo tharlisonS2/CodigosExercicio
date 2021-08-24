@@ -52,7 +52,7 @@
     }
     </style>
     <style>
-        form{
+        .mainform{
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -64,7 +64,7 @@
             margin-top:100px;
             
         }
-        form input{
+        .mainform input{
             margin: 2px;
             margin-top: 8px;
             align-content: right;  
@@ -74,7 +74,7 @@
             border-color:#ccc;
         
         }
-        form input[name="Salvar"]{
+        .mainform input[name="Salvar"]{
 		    margin-top: 0px;
 		    padding: 0.6rem;
             padding-inline: 15px;
@@ -86,11 +86,24 @@
 		    border-radius: 6px;
 		    transition: all 0.3s ease;
 	    }
-        form input[name="Cancelar"]{
+        .mainform input[name="Cancelar"]{
             margin-left: 30px;
 		    margin-top: 15px;
 		    padding: 0.6rem;
 		    background-color:red;
+		    cursor: pointer;
+		    color: white;
+		    font-size: 1rem;
+		    font-weight: 4;
+		    border-radius: 6px;
+		    transition: all 0.3s ease;
+	    }
+        .mainform a[name="Novo"]{
+            text-decoration: none;
+		    margin-top: 0px;
+		    padding: 0.6rem;
+            padding-inline: 15px;
+		    background-color:rgb(24, 139, 233);
 		    cursor: pointer;
 		    color: white;
 		    font-size: 1rem;
@@ -103,7 +116,32 @@
             width: 90px;
             text-align: right;
         }
-
+        .tabela{
+            text-align: center;
+            border-color: black;
+        }
+        .tabelatr{
+            background-color: rgb(37, 37, 39);
+            font-weight: bold;
+            color:white;
+           
+        }
+        .tabela tbody tr:nth-child(2n){
+            background:#ccc;
+        }
+        .tabela a{
+            text-decoration: none;
+        }
+        th{
+            min-width: 70px;
+        }
+        .excluirTabela button{
+            color:white;
+            background-color: tomato;
+            border-radius: 2px;
+            border:transparent;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -120,29 +158,60 @@
                 <li><a href="#">Entrar</a></li>
             </ul>
         </nav>
-        <form action='/cliente'method='POST'>
+        <form action='/cliente'method='POST' class="mainform">
             @csrf
+            <input type="hidden" id="id" name="id" value="{{$cliente->id}}"/>
             <div>
                 <label>Nome:</label>
-                <input type='text' name='nome'></input>
+                <input type='text' name='nome' value="{{$cliente->nome}}"></input>
                 <label>CPF:</label>
-                <input type='text' name='cpf'></input
+                <input type='text' name='cpf' value="{{$cliente->cpf}}"></input
             </div>
             <div>
                 <label>Email:</label>
-                <input type='text' name='email'></input>
+                <input type='text' name='email' value="{{$cliente->email}}"></input>
                 <label>Telefone:</label>
-                <input type='text'name ='telefone'></input>
+                <input type='text'name ='telefone' value="{{$cliente->telefone}}"></input>
             </div>
             <div>
                 <label>Data Nasc.:</label>
-                <input type='date'name='data_nascimento'></input>
+                <input type='date'name='data_nascimento' value="{{$cliente->data_nascimento}}"></input>
+            </div>
+            <div align="center">
+                <input type='submit' name='Cancelar'value='Cancelar'></input>
+                <input type='submit' name='Salvar'value='Salvar'></input>
+                <a href="/cliente" name="Novo">Novo</a>
             </div>
         </form>
-        <div align="center">
-            <input type='submit' name='Cancelar'value='Cancelar'></input>
-            <input type='submit' name='Salvar'value='Salvar'></input>
-        </div>
+        <br><h1 align="center">Listagem</h1><br>
+        <table  class="tabela">
+            <thead>
+                <tr class="tabelatr">
+                    <th>Nome</th>
+                    <th>Email</th>
+                    <th>Editar</th>
+                    <th>Excluir</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($clientes as $cliente)
+                <tr>
+                    <td>{{$cliente->nome}}</td>
+                    <td>{{$cliente->email}}</td>
+                    <td>
+                        <a href="/cliente/{{$cliente->id}}/edit">Editar</a>
+                    </td>
+                    <td>
+                        <form action="/cliente/{{$cliente->id}}" method="POST" class="excluirTabela">
+                        @csrf
+                            <input type="hidden" name="_method" value="DELETE"/>
+                            <button type="submit">Excluir</button>
+                        </form>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
 </body>
 </html>
